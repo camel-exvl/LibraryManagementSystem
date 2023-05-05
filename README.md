@@ -12,6 +12,8 @@
 运行主代码
 `mvn exec:java -Dexec.mainClass="Main" -Dexec.cleanupDaemonThreads=false`
 
+- 注意：在Windows下，需要使用`mvn exec:java -D"exec.mainClass"="Main" -D"exec.cleanupDaemonThreads"=false`命令，来源参考[Unknown lifecycle phase on Maven](https://stackoverflow.com/questions/64299956/unknown-lifecycle-phase-on-maven)
+
 运行所有的测试
 `mvn -Dtest=LibraryTest clean test`
 
