@@ -1,7 +1,7 @@
+import java.util.logging.Logger;
+
 import utils.ConnectConfig;
 import utils.DatabaseConnector;
-
-import java.util.logging.Logger;
 
 public class Main {
 

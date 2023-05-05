@@ -1,12 +1,12 @@
 package utils;
 
-import org.yaml.snakeyaml.Yaml;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.Map;
+
+import org.yaml.snakeyaml.Yaml;
 
 public final class ConnectConfig {
 
@@ -41,7 +41,7 @@ public final class ConnectConfig {
         return "utils.ConnectConfig: {" + "host='" + host + '\'' +
                 ", port='" + port + '\'' +
                 ", user='" + user + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + password.replaceAll(".", "*") + '\'' +
                 ", db='" + db + '\'' +
                 ", type='" + type.toString() + '\'' +
                 '}';

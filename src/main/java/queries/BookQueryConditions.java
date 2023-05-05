@@ -4,13 +4,13 @@ import entities.Book;
 
 /**
  * Note: (1) all non-null attributes should be used as query
- *       conditions and connected by "AND" operations.
- *       (2) for range query of an attribute, the maximum and
- *       minimum values use closed intervals.
- *       eg: minA=x, maxA=y ==> x <= A <= y
- *           minA=null, maxA=y ==> A <= y
- *           minA=x, maxA=null ==> A >= x
- * */
+ * conditions and connected by "AND" operations.
+ * (2) for range query of an attribute, the maximum and
+ * minimum values use closed intervals.
+ * eg: minA=x, maxA=y ==> x <= A <= y
+ * minA=null, maxA=y ==> A <= y
+ * minA=x, maxA=null ==> A >= x
+ */
 public class BookQueryConditions {
     /* Note: use exact matching */
     private String category;
@@ -40,6 +40,21 @@ public class BookQueryConditions {
         this.maxPrice = null;
         sortBy = Book.SortColumn.BOOK_ID;
         sortOrder = SortOrder.ASC;
+    }
+
+    public BookQueryConditions(String category, String title, String press,
+            Integer minPublishYear, Integer maxPublishYear,
+            String author, Double minPrice, Double maxPrice) {
+        this.category = category;
+        this.title = title;
+        this.press = press;
+        this.minPublishYear = minPublishYear;
+        this.maxPublishYear = maxPublishYear;
+        this.author = author;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.sortBy = Book.SortColumn.BOOK_ID;
+        this.sortOrder = SortOrder.ASC;
     }
 
     public String getCategory() {
