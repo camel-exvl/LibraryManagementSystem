@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>图书信息查询</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="//cdn.staticfile.org/layui/2.8.2/css/layui.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <div th:replace="~{common::nav-fragment-header}"></div>
+        <div th:replace="~{common::nav-fragment-sidebar}"></div>
+        <div class="layui-body">
+            <div style="padding: 15px;" id="home-content">
+                <div class="layui-form layui-row layui-col-space15">
+                    <div class="layui-form-item">
+                        <div class="layui-col-md3">
+                            <label class="layui-form-label">查询</label>
+                            <div class="layui-input-block">
+                                <select lay-filter="queryBookSelect" id="queryBookSelect">
+                                    <option value="category">类别（精确查询）</option>
+                                    <option value="title">书名（模糊查询）</option>
+                                    <option value="press">出版社（模糊查询）</option>
+                                    <option value="publishYear">出版年份（范围查询）</option>
+                                    <option value="author">作者（模糊查询）</option>
+                                    <option value="price">价格（范围查询）</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6" id="queryBookSearch">
+                            <div class="layui-input-block">
+                                <input type="text" placeholder="请输入搜索内容" class="layui-input" id="queryBookSearchInput"
+                                    th:value="${queryBookSearchInput}">
+                            </div>
+                        </div>
+                        <div id="queryBookSearchRangeMin" class="layui-col-md3 layui-hide">
+                            <div class="layui-input-block">
+                                <input type="text" placeholder="请输入起始值" class="layui-input"
+                                    id="queryBookSearchRangeMinInput" th:value="${queryBookSearchRangeMinInput}">
+                            </div>
+                        </div>
+                        <div id="queryBookSearchRangeMax" class="layui-col-md3 layui-hide">
+                            <div class="layui-input-block">
+                                <input type="text" placeholder="请输入结束值" class="layui-input"
+                                    id="queryBookSearchRangeMaxInput" th:value="${queryBookSearchRangeMaxInput}">
+                            </div>
+                        </div>
+                        <div class="layui-col-md3">
+                            <div class="layui-input-block">
+                                <button class="layui-btn layui-btn-radius" type="submit" lay-submit
+                                    lay-filter="queryBookSearchButton">搜索</button>
+                                <button class="layui-btn layui-btn-radius" lay-submit type="submit"
+                                    lay-filter="queryBookSearchTwiceButton"
+                                    id="queryBookSearchTwiceButton">二次搜索</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-col-md3">
+                            <label class="layui-form-label">排序：</label>
+                            <div class="layui-input-block">
+                                <select lay-filter="queryBookSortBy" id="queryBookSortBy">
+                                    <option value="BOOK_ID">ID</option>
+                                    <option value="CATEGORY">类别</option>
+                                    <option value="TITLE">书名</option>
+                                    <option value="PRESS">出版社</option>
+                                    <option value="PUBLISH_YEAR">出版年份</option>
+                                    <option value="AUTHOR">作者</option>
+                                    <option value="PRICE">价格</option>
+                                    <option value="STOCK">库存</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md3">
+                            <div class="layui-input-block">
+                                <select lay-filter="queryBookSortOrder" id="queryBookSortOrder">
+                                    <option value="ASC">升序</option>
+                                    <option value="DESC">降序</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>类别</th>
+                        <th>书名</th>
+                        <th>出版社</th>
+                        <th>出版年份</th>
+                        <th>作者</th>
+                        <th>价格</th>
+                        <th>库存</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="book,bookStat : ${Books}">
+                        <td th:text="${book.bookId}"></td>
+                        <td th:text="${book.category}"></td>
+                        <td th:text="${book.title}"></td>
+                        <td th:text="${book.press}"></td>
+                        <td th:text="${book.publishYear}"></td>
+                        <td th:text="${book.author}"></td>
+                        <td th:text="${book.price}"></td>
+                        <td th:text="${book.stock}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</body>
+<script src="//cdn.staticfile.org/layui/2.8.2/layui.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/queryBook.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var queryBookSelect = /*[[${queryBookSelect}]]*/ 'category';
+    var queryBookSortBy = /*[[${queryBookSortBy}]]*/ 'BOOK_ID';
+    var queryBookSortOrder = /*[[${queryBookSortOrder}]]*/ 'ASC';
+    document.getElementById("queryBookSelect").value = queryBookSelect;
+    document.getElementById("queryBookSortBy").value = queryBookSortBy;
+    document.getElementById("queryBookSortOrder").value = queryBookSortOrder;
+    initSelected(queryBookSelect, queryBookSortBy, queryBookSortOrder);
+/*]]>*/
+</script>
+
+</html>
