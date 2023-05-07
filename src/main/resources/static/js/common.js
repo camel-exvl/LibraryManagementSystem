@@ -11,6 +11,9 @@ layui.use(['element', 'layer', 'util'], function () {
         },
         queryBorrowPage: function () {
             window.location.href = "/query/queryBorrow";
+        },
+        queryCardPage: function () {
+            window.location.href = "/query/queryCard";
         }
     });
 });

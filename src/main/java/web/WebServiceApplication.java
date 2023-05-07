@@ -16,6 +16,7 @@ import queries.ApiResult;
 import queries.BookQueryConditions;
 import queries.BookQueryResults;
 import queries.BorrowHistories;
+import queries.CardList;
 import queries.SortOrder;
 import utils.ConnectConfig;
 import utils.DatabaseConnector;
@@ -153,5 +154,23 @@ public class WebServiceApplication {
             log.warning(e.getMessage());
         }
         return "query/queryBorrow";
+    }
+
+    @GetMapping("/query/queryCard")
+    public String queryCard(@RequestParam(name = "queryCardSearch", required = false) String queryCardInput,
+            Model model) {
+        try {
+            if (queryCardInput != null) {
+                ApiResult result = library.showCards();
+                if (result.ok) {
+                    model.addAttribute("Cards", ((CardList) result.payload).getCards());
+                } else {
+                    throw new Exception(result.message);
+                }
+            }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+        }
+        return "query/queryCard";
     }
 }
