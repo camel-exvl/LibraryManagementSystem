@@ -15,6 +15,7 @@ import library.LibraryManagementSystemImpl;
 import queries.ApiResult;
 import queries.BookQueryConditions;
 import queries.BookQueryResults;
+import queries.BorrowHistories;
 import queries.SortOrder;
 import utils.ConnectConfig;
 import utils.DatabaseConnector;
@@ -131,5 +132,26 @@ public class WebServiceApplication {
             }
         }
         return "query/queryBook";
+    }
+
+    @GetMapping("/query/queryBorrow")
+    public String queryBorrow(@RequestParam(name = "queryBorrowSearch", required = false) String queryBorrowInput,
+            Model model) {
+        try {
+            if (queryBorrowInput != null) {
+                model.addAttribute("queryBorrowSearchInput", queryBorrowInput);
+                ApiResult result = library.showBorrowHistory(Integer.parseInt(queryBorrowInput));
+                if (result.ok) {
+                    model.addAttribute("Borrows", ((BorrowHistories) result.payload).getItems());
+                } else {
+                    throw new Exception(result.message);
+                }
+            } else {
+                model.addAttribute("queryBorrowSearchInput", "");
+            }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+        }
+        return "query/queryBorrow";
     }
 }

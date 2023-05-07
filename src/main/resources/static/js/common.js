@@ -8,6 +8,9 @@ layui.use(['element', 'layer', 'util'], function () {
     util.event('lay-header-event', {
         queryBookPage: function () {
             window.location.href = "/query/queryBook";
+        },
+        queryBorrowPage: function () {
+            window.location.href = "/query/queryBorrow";
         }
     });
 });
