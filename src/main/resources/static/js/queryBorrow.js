@@ -1,5 +1,6 @@
-const queryBorrowHeaderButton = document.getElementById("queryBorrowHeaderButton");
-queryBorrowHeaderButton.className += " layui-this";
+document.getElementById("queryBorrowHeaderButton").className += " layui-this";
+document.getElementById("queryMenu").className = "layui-nav-item layui-nav-itemed";
+document.getElementById("manageMenu").className = "layui-nav-item";
 
 layui.use(function () {
     var form = layui.form;

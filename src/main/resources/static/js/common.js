@@ -17,6 +17,9 @@ layui.use(['element', 'layer', 'util'], function () {
         },
         borrowBookPage: function () {
             window.location.href = "/borrowBook";
+        },
+        manageBookPage: function () {
+            window.location.href = "/manage/manageBook";
         }
     });
 });

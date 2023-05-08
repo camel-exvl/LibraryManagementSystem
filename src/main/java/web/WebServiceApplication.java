@@ -76,8 +76,8 @@ public class WebServiceApplication {
             @RequestParam(name = "queryBookSortOrder", required = false) String queryBookSortOrder,
             @RequestParam(name = "queryBookSearchTwice", required = false) String queryBookSearchTwice,
             Model model) {
-        if (queryBookSelect != null) {
-            try {
+        try {
+            if (queryBookSelect != null) {
                 model.addAttribute("queryBookSelect", queryBookSelect);
                 model.addAttribute("queryBookSearchInput", queryBookInput);
                 model.addAttribute("queryBookSearchRangeMinInput", queryBookSearchRangeMin);
@@ -118,22 +118,17 @@ public class WebServiceApplication {
                     throw new Exception(result.message);
                 }
                 model.addAttribute("message", "查询成功");
-            } catch (Exception e) {
-                log.warning(e.getMessage());
-                model.addAttribute("message", e.getMessage());
-            }
-        } else {
-            try {
+            } else {
                 model.addAttribute("queryBookSelect", "category");
                 model.addAttribute("queryBookSearchInput", "");
                 model.addAttribute("queryBookSearchRangeMinInput", "");
                 model.addAttribute("queryBookSearchRangeMaxInput", "");
                 model.addAttribute("queryBookSortBy", "BOOK_ID");
                 model.addAttribute("queryBookSortOrder", "ASC");
-            } catch (Exception e) {
-                log.warning(e.getMessage());
-                model.addAttribute("message", e.getMessage());
             }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+            model.addAttribute("message", e.getMessage());
         }
         return "query/queryBook";
     }
@@ -224,5 +219,83 @@ public class WebServiceApplication {
             model.addAttribute("message", e.getMessage());
         }
         return "borrowBook";
+    }
+
+    @GetMapping("/manage/manageBook")
+    public String manageBook(
+            @RequestParam(name = "manageBookManageSelect", required = false) String manageBookManageSelect,
+            @RequestParam(name = "manageBookManageID", required = false) String manageBookManageID,
+            @RequestParam(name = "manageBookManageCategory", required = false) String manageBookManageCategory,
+            @RequestParam(name = "manageBookManageTitle", required = false) String manageBookManageTitle,
+            @RequestParam(name = "manageBookManagePress", required = false) String manageBookManagePress,
+            @RequestParam(name = "manageBookManagePublisherYear", required = false) String manageBookManagePublisherYear,
+            @RequestParam(name = "manageBookManageAuthor", required = false) String manageBookManageAuthor,
+            @RequestParam(name = "manageBookManagePrice", required = false) String manageBookManagePrice,
+            @RequestParam(name = "manageBookManageStock", required = false) String manageBookManageStock,
+            Model model) {
+        try {
+            if (manageBookManageSelect != null) {
+                model.addAttribute("manageBookManageSelect", manageBookManageSelect);
+                model.addAttribute("manageBookManageID", manageBookManageID);
+                model.addAttribute("manageBookManageCategory", manageBookManageCategory);
+                model.addAttribute("manageBookManageTitle", manageBookManageTitle);
+                model.addAttribute("manageBookManagePress", manageBookManagePress);
+                model.addAttribute("manageBookManagePublisherYear", manageBookManagePublisherYear);
+                model.addAttribute("manageBookManageAuthor", manageBookManageAuthor);
+                model.addAttribute("manageBookManagePrice", manageBookManagePrice);
+                model.addAttribute("manageBookManageStock", manageBookManageStock);
+                if (manageBookManageSelect.equals("new")) {
+                    Book book = new Book(manageBookManageCategory, manageBookManageTitle, manageBookManagePress,
+                            Integer.parseInt(manageBookManagePublisherYear), manageBookManageAuthor,
+                            Double.parseDouble(manageBookManagePrice), Integer.parseInt(manageBookManageStock));
+                    ApiResult result = library.storeBook(book);
+                    if (result.ok) {
+                        model.addAttribute("message", "入库成功");
+                    } else {
+                        throw new Exception(result.message);
+                    }
+                } else if (manageBookManageSelect.equals("stock")) {
+                    ApiResult result = library.incBookStock(Integer.parseInt(manageBookManageID),
+                            Integer.parseInt(manageBookManageStock));
+                    if (result.ok) {
+                        model.addAttribute("message", "修改成功");
+                    } else {
+                        throw new Exception(result.message);
+                    }
+                } else if (manageBookManageSelect.equals("update")) {
+                    Book book = new Book(manageBookManageCategory, manageBookManageTitle, manageBookManagePress,
+                            Integer.parseInt(manageBookManagePublisherYear), manageBookManageAuthor,
+                            Double.parseDouble(manageBookManagePrice), 0);
+                    book.setBookId(Integer.parseInt(manageBookManageID));
+                    ApiResult result = library.modifyBookInfo(book);
+                    if (result.ok) {
+                        model.addAttribute("message", "修改成功");
+                    } else {
+                        throw new Exception(result.message);
+                    }
+                } else if (manageBookManageSelect.equals("delete")) {
+                    ApiResult result = library.removeBook(Integer.parseInt(manageBookManageID));
+                    if (result.ok) {
+                        model.addAttribute("message", "删除成功");
+                    } else {
+                        throw new Exception(result.message);
+                    }
+                }
+            } else {
+                model.addAttribute("manageBookManageSelect", "new");
+                model.addAttribute("manageBookManageID", "");
+                model.addAttribute("manageBookManageCategory", "");
+                model.addAttribute("manageBookManageTitle", "");
+                model.addAttribute("manageBookManagePress", "");
+                model.addAttribute("manageBookManagePublisherYear", "");
+                model.addAttribute("manageBookManageAuthor", "");
+                model.addAttribute("manageBookManagePrice", "");
+                model.addAttribute("manageBookManageStock", "");
+            }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+            model.addAttribute("message", e.getMessage());
+        }
+        return "manage/manageBook";
     }
 }

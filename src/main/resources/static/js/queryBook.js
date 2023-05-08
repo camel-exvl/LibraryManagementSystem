@@ -1,5 +1,6 @@
-const queryBookHeaderButton = document.getElementById("queryBookHeaderButton");
-queryBookHeaderButton.className += " layui-this";
+document.getElementById("queryBookHeaderButton").className += " layui-this";
+document.getElementById("queryMenu").className = "layui-nav-item layui-nav-itemed";
+document.getElementById("manageMenu").className = "layui-nav-item";
 var queryBookSelectValue = "category";
 var queryBookSortByValue = "BOOK_ID";
 var queryBookSortOrderValue = "ASC";
