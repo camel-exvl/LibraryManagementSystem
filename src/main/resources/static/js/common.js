@@ -20,6 +20,9 @@ layui.use(['element', 'layer', 'util'], function () {
         },
         manageBookPage: function () {
             window.location.href = "/manage/manageBook";
+        },
+        manageCardPage: function () {
+            window.location.href = "/manage/manageCard";
         }
     });
 });

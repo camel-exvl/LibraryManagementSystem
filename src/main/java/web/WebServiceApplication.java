@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import entities.Book;
 import entities.Borrow;
+import entities.Card;
 import library.LibraryManagementSystem;
 import library.LibraryManagementSystemImpl;
 import queries.ApiResult;
@@ -297,5 +298,53 @@ public class WebServiceApplication {
             model.addAttribute("message", e.getMessage());
         }
         return "manage/manageBook";
+    }
+
+    @GetMapping("/manage/manageCard")
+    public String manageCard(
+            @RequestParam(name = "manageCardManageSelect", required = false) String manageCardManageSelect,
+            @RequestParam(name = "manageCardManageID", required = false) String manageCardManageID,
+            @RequestParam(name = "manageCardManageName", required = false) String manageCardManageName,
+            @RequestParam(name = "manageCardManageDepartment", required = false) String manageCardManageDepartment,
+            @RequestParam(name = "manageCardManageTypeSelect", required = false) String manageCardManageTypeSelect,
+            Model model) {
+        try {
+            if (manageCardManageSelect != null) {
+                model.addAttribute("manageCardManageSelect", manageCardManageSelect);
+                model.addAttribute("manageCardManageID", manageCardManageID);
+                model.addAttribute("manageCardManageName", manageCardManageName);
+                model.addAttribute("manageCardManageDepartment", manageCardManageDepartment);
+                model.addAttribute("manageCardManageTypeSelect", manageCardManageTypeSelect);
+                if (manageCardManageSelect.equals("new")) {
+                    Card card = new Card();
+                    card.setName(manageCardManageName);
+                    card.setDepartment(manageCardManageDepartment);
+                    card.setType(Card.CardType.valueOf(manageCardManageTypeSelect));
+                    ApiResult result = library.registerCard(card);
+                    if (result.ok) {
+                        model.addAttribute("message", "办卡成功");
+                    } else {
+                        throw new Exception(result.message);
+                    }
+                } else if (manageCardManageSelect.equals("delete")) {
+                    ApiResult result = library.removeCard(Integer.parseInt(manageCardManageID));
+                    if (result.ok) {
+                        model.addAttribute("message", "注销成功");
+                    } else {
+                        throw new Exception(result.message);
+                    }
+                }
+            } else {
+                model.addAttribute("manageCardManageSelect", "new");
+                model.addAttribute("manageCardManageID", "");
+                model.addAttribute("manageCardManageName", "");
+                model.addAttribute("manageCardManageDepartment", "");
+                model.addAttribute("manageCardManageTypeSelect", "Student");
+            }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+            model.addAttribute("message", e.getMessage());
+        }
+        return "manage/manageCard";
     }
 }
