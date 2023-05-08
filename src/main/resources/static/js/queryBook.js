@@ -23,6 +23,7 @@ layui.use(function () {
     form.on("submit(queryBookSearchButton)", function (data) {
         queryBookSearch("queryBookSearchButton");
     });
+    
     form.on("submit(queryBookSearchTwiceButton)", function (data) {
         queryBookSearch("queryBookSearchTwiceButton");
     });

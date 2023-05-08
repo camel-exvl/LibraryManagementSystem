@@ -130,6 +130,13 @@
     document.getElementById("queryBookSortBy").value = queryBookSortBy;
     document.getElementById("queryBookSortOrder").value = queryBookSortOrder;
     initSelected(queryBookSelect, queryBookSortBy, queryBookSortOrder);
+    var message = /*[[${message}]]*/ '';
+    if (message != '') {
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.msg(message);
+        });
+    }
 /*]]>*/
 </script>
 

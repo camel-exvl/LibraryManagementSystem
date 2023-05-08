@@ -41,7 +41,7 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             stmt.setString(5, book.getAuthor());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                throw new Exception("Book already exists");
+                throw new Exception("该书已存在");
             }
             stmt = conn.prepareStatement(
                     "INSERT INTO book (category, title, press, publish_year, author, price, stock) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -58,7 +58,7 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             if (rs.next()) {
                 book.setBookId(rs.getInt(1));
             } else {
-                throw new Exception("Failed to get book id");
+                throw new Exception("获取图书ID失败");
             }
             commit(conn);
         } catch (Exception e) {
@@ -76,11 +76,11 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             stmt.setInt(1, bookId);
             ResultSet rs = stmt.executeQuery();
             if (!rs.next()) {
-                throw new Exception("Book not exists");
+                throw new Exception("该书不存在");
             }
             int stock = rs.getInt("stock");
             if (stock + deltaStock < 0) {
-                throw new Exception("Stock not enough");
+                throw new Exception("库存不足");
             }
             stmt = conn.prepareStatement("UPDATE book SET stock = ? WHERE book_id = ?");
             stmt.setInt(1, stock + deltaStock);
@@ -108,7 +108,7 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
                 stmt.setString(5, book.getAuthor());
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
-                    throw new Exception("Book already exists");
+                    throw new Exception("该书已存在");
                 }
             }
             stmt = conn.prepareStatement(
@@ -130,7 +130,7 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
                 if (rs.next()) {
                     book.setBookId(rs.getInt(1));
                 } else {
-                    throw new Exception("Failed to get book id");
+                    throw new Exception("获取图书ID失败");
                 }
             }
             commit(conn);
@@ -150,13 +150,13 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             stmt.setInt(1, bookId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                throw new Exception("Book is borrowed");
+                throw new Exception("该书有未归还的借阅记录");
             }
             stmt = conn.prepareStatement("DELETE FROM book WHERE book_id = ?");
             stmt.setInt(1, bookId);
             Integer affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
-                throw new Exception("Book not exists");
+                throw new Exception("该书不存在");
             }
             commit(conn);
         } catch (Exception e) {
@@ -290,7 +290,7 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             pstmt.setInt(1, borrow.getBookId());
             ResultSet rs = pstmt.executeQuery();
             if (!rs.next()) {
-                throw new Exception("No such book or no stock");
+                throw new Exception("该书不存在或库存不足");
             }
             pstmt = conn.prepareStatement(
                     "SELECT * FROM borrow WHERE card_id = ? AND book_id = ? AND return_time = 0 FOR UPDATE");
@@ -298,7 +298,7 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             pstmt.setInt(2, borrow.getBookId());
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                throw new Exception("This book has been borrowed by this card");
+                throw new Exception("该书已被此卡借阅");
             }
             pstmt = conn.prepareStatement(
                     "INSERT INTO borrow (card_id, book_id, borrow_time, return_time) VALUES (?, ?, ?, ?)");
@@ -328,10 +328,10 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             pstmt.setInt(2, borrow.getBookId());
             ResultSet rs = pstmt.executeQuery();
             if (!rs.next()) {
-                throw new Exception("No such borrow record");
+                throw new Exception("不存在该借阅记录");
             }
             if (borrow.getReturnTime() <= rs.getLong("borrow_time")) {
-                throw new Exception("Return time is earlier than borrow time");
+                throw new Exception("归还时间早于借阅时间");
             }
             pstmt = conn.prepareStatement(
                     "UPDATE borrow SET return_time = ? WHERE card_id = ? AND book_id = ? AND return_time = 0");
@@ -389,7 +389,7 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             pstmt.setString(3, card.getType().getStr());
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                throw new Exception("This card has been registered");
+                throw new Exception("该卡已存在");
             }
             pstmt = conn.prepareStatement(
                     "INSERT INTO card (name, department, type) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -401,7 +401,7 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             if (rs.next()) {
                 card.setCardId(rs.getInt(1));
             } else {
-                throw new Exception("Failed to get card id");
+                throw new Exception("获取卡号失败");
             }
             commit(conn);
         } catch (Exception e) {
@@ -420,14 +420,14 @@ public class LibraryManagementSystemImpl implements LibraryManagementSystem {
             pstmt.setInt(1, cardId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                throw new Exception("This card has borrowed books");
+                throw new Exception("该卡存在未归还书籍");
             }
             pstmt = conn.prepareStatement(
                     "DELETE FROM card WHERE card_id = ?");
             pstmt.setInt(1, cardId);
             Integer affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
-                throw new Exception("No such card");
+                throw new Exception("该卡不存在");
             }
             commit(conn);
         } catch (Exception e) {

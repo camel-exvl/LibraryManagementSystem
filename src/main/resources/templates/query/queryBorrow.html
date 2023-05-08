@@ -73,5 +73,16 @@
 <script src="//cdn.staticfile.org/layui/2.8.2/layui.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/queryBorrow.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message = /*[[${message}]]*/ '';
+    if (message != '') {
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.msg(message);
+        });
+    }
+/*]]>*/
+</script>
 
 </html>

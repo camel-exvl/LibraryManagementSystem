@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import entities.Book;
+import entities.Borrow;
 import library.LibraryManagementSystem;
 import library.LibraryManagementSystemImpl;
 import queries.ApiResult;
@@ -58,7 +59,6 @@ public class WebServiceApplication {
             SpringApplication.run(WebServiceApplication.class, args);
         } catch (Exception e) {
             e.printStackTrace();
-
         }
     }
 
@@ -117,8 +117,10 @@ public class WebServiceApplication {
                 } else {
                     throw new Exception(result.message);
                 }
+                model.addAttribute("message", "查询成功");
             } catch (Exception e) {
                 log.warning(e.getMessage());
+                model.addAttribute("message", e.getMessage());
             }
         } else {
             try {
@@ -130,6 +132,7 @@ public class WebServiceApplication {
                 model.addAttribute("queryBookSortOrder", "ASC");
             } catch (Exception e) {
                 log.warning(e.getMessage());
+                model.addAttribute("message", e.getMessage());
             }
         }
         return "query/queryBook";
@@ -147,11 +150,13 @@ public class WebServiceApplication {
                 } else {
                     throw new Exception(result.message);
                 }
+                model.addAttribute("message", "查询成功");
             } else {
                 model.addAttribute("queryBorrowSearchInput", "");
             }
         } catch (Exception e) {
             log.warning(e.getMessage());
+            model.addAttribute("message", e.getMessage());
         }
         return "query/queryBorrow";
     }
@@ -167,10 +172,57 @@ public class WebServiceApplication {
                 } else {
                     throw new Exception(result.message);
                 }
+                model.addAttribute("message", "查询成功");
             }
         } catch (Exception e) {
             log.warning(e.getMessage());
+            model.addAttribute("message", e.getMessage());
         }
         return "query/queryCard";
+    }
+
+    @GetMapping("/borrowBook")
+    public String borrowBook(@RequestParam(name = "mode", required = false) String mode,
+            @RequestParam(name = "borrowCardID", required = false) String borrowCardID,
+            @RequestParam(name = "borrowBookID", required = false) String borrowBookID,
+            @RequestParam(name = "returnCardID", required = false) String returnCardID,
+            @RequestParam(name = "returnBookID", required = false) String returnBookID,
+            Model model) {
+        try {
+            if (mode != null) {
+                model.addAttribute("borrowBookBorrowCardIDInput", borrowCardID);
+                model.addAttribute("borrowBookBorrowBookIDInput", borrowBookID);
+                model.addAttribute("borrowBookReturnCardIDInput", returnCardID);
+                model.addAttribute("borrowBookReturnBookIDInput", returnBookID);
+                if (mode.equals("borrow")) {
+                    Borrow borrow = new Borrow(Integer.parseInt(borrowCardID), Integer.parseInt(borrowBookID));
+                    borrow.resetBorrowTime();
+                    ApiResult result = library.borrowBook(borrow);
+                    if (result.ok) {
+                        model.addAttribute("message", "借书成功");
+                    } else {
+                        throw new Exception(result.message);
+                    }
+                } else if (mode.equals("return")) {
+                    Borrow borrow = new Borrow(Integer.parseInt(returnCardID), Integer.parseInt(returnBookID));
+                    borrow.resetReturnTime();
+                    ApiResult result = library.returnBook(borrow);
+                    if (result.ok) {
+                        model.addAttribute("message", "还书成功");
+                    } else {
+                        throw new Exception(result.message);
+                    }
+                }
+            } else {
+                model.addAttribute("borrowBookBorrowCardIDInput", "");
+                model.addAttribute("borrowBookBorrowBookIDInput", "");
+                model.addAttribute("borrowBookReturnCardIDInput", "");
+                model.addAttribute("borrowBookReturnBookIDInput", "");
+            }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+            model.addAttribute("message", e.getMessage());
+        }
+        return "borrowBook";
     }
 }
