@@ -3,7 +3,6 @@ package utils;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.net.URL;
 import java.util.Map;
 
 import org.yaml.snakeyaml.Yaml;
@@ -18,11 +17,11 @@ public final class ConnectConfig {
     private final DatabaseType type;
 
     public ConnectConfig() throws FileNotFoundException, NullPointerException, ClassNotFoundException {
-        URL res = ConnectConfig.class.getClassLoader().getResource("application.yaml");
-        if (res == null) {
-            throw new NullPointerException();
-        }
-        BufferedReader br = new BufferedReader(new FileReader(res.getPath()));
+        // URL res = ConnectConfig.class.getClassLoader().getResource("application.yaml");
+        // if (res == null) {
+        //     throw new NullPointerException();
+        // }
+        BufferedReader br = new BufferedReader(new FileReader("./application.yaml"));
         Yaml yaml = new Yaml();
         Map<String, Object> objectMap = yaml.load(br);
         /* initialize all configures */

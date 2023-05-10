@@ -13,64 +13,102 @@
         <div th:replace="~{common::nav-fragment-sidebar}"></div>
         <div class="layui-body">
             <div style="padding: 15px;" id="home-content">
-                <div class="layui-form layui-row layui-col-space15">
+                <div class="layui-form">
                     <div class="layui-form-item">
-                        <div class="layui-col-md3">
-                            <label class="layui-form-label">操作：</label>
-                            <div class="layui-input-block">
-                                <select lay-filter="manageBookManageSelect" id="manageBookManageSelector">
-                                    <option value="new">新增图书</option>
-                                    <option value="stock">库存修改</option>
-                                    <option value="update">修改图书</option>
-                                    <option value="delete">删除图书</option>
-                                </select>
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">操作：</label>
+                                <div class="layui-input-block">
+                                    <select lay-filter="manageBookManageSelect" id="manageBookManageSelector">
+                                        <option value="new">新增图书</option>
+                                        <option value="stock">库存修改</option>
+                                        <option value="update">修改图书</option>
+                                        <option value="delete">删除图书</option>
+                                    </select>
+                                </div>
                             </div>
-                            <label class="layui-form-label">ID：</label>
-                            <div class="layui-input-block">
-                                <input type="text" placeholder="请输入ID" class="layui-input" id="manageBookManageID"
-                                    th:value="${manageBookManageID}">
+                        </div>
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">ID：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" placeholder="请输入ID" class="layui-input" id="manageBookManageID"
+                                        th:value="${manageBookManageID}">
+                                </div>
                             </div>
-                            <label class="layui-form-label">类别：</label>
-                            <div class="layui-input-block">
-                                <input type="text" placeholder="请输入类别" class="layui-input" id="manageBookManageCategory"
-                                    th:value="${manageBookManageCategory}">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">类别：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" placeholder="请输入类别" class="layui-input"
+                                        id="manageBookManageCategory" th:value="${manageBookManageCategory}">
+                                </div>
                             </div>
-                            <label class="layui-form-label">书名：</label>
-                            <div class="layui-input-block">
-                                <input type="text" placeholder="请输入书名" class="layui-input" id="manageBookManageTitle"
-                                    th:value="${manageBookManageTitle}">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">书名：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" placeholder="请输入书名" class="layui-input"
+                                        id="manageBookManageTitle" th:value="${manageBookManageTitle}">
+                                </div>
                             </div>
-                            <label class="layui-form-label">出版社：</label>
-                            <div class="layui-input-block">
-                                <input type="text" placeholder="请输入出版社" class="layui-input" id="manageBookManagePress"
-                                    th:value="${manageBookManagePress}">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">出版社：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" placeholder="请输入出版社" class="layui-input"
+                                        id="manageBookManagePress" th:value="${manageBookManagePress}">
+                                </div>
                             </div>
-                            <label class="layui-form-label">出版年份：</label>
-                            <div class="layui-input-block">
-                                <input type="text" placeholder="请输入出版年份" class="layui-input"
-                                    id="manageBookManagePublisherYear" th:value="${manageBookManagePublisherYear}">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">出版年份：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" placeholder="请输入出版年份" class="layui-input"
+                                        id="manageBookManagePublisherYear" th:value="${manageBookManagePublisherYear}">
+                                </div>
                             </div>
-                            <label class="layui-form-label">作者：</label>
-                            <div class="layui-input-block">
-                                <input type="text" placeholder="请输入作者" class="layui-input" id="manageBookManageAuthor"
-                                    th:value="${manageBookManageAuthor}">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">作者：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" placeholder="请输入作者" class="layui-input"
+                                        id="manageBookManageAuthor" th:value="${manageBookManageAuthor}">
+                                </div>
                             </div>
-                            <label class="layui-form-label">价格：</label>
-                            <div class="layui-input-block">
-                                <input type="text" placeholder="请输入价格" class="layui-input" id="manageBookManagePrice"
-                                    th:value="${manageBookManagePrice}">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">价格：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" placeholder="请输入价格" class="layui-input"
+                                        id="manageBookManagePrice" th:value="${manageBookManagePrice}">
+                                </div>
                             </div>
-                            <label class="layui-form-label">库存：</label>
-                            <div class="layui-input-block">
-                                <input type="text" placeholder="请输入库存" class="layui-input" id="manageBookManageStock"
-                                    th:value="${manageBookManageStock}">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">库存：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" placeholder="请输入库存" class="layui-input"
+                                        id="manageBookManageStock" th:value="${manageBookManageStock}">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="layui-col-md3">
-                        <div class="layui-input-block">
-                            <button class="layui-btn layui-btn-radius" type="submit" lay-submit
-                                lay-filter="manageBookManageButton">确定</button>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md3">
+                            <div class="layui-input-block">
+                                <button class="layui-btn layui-btn-radius" type="submit" lay-submit
+                                    lay-filter="manageBookManageButton">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <label class="layui-form-label">
+                            批量入库：
+                        </label>
+                    </div>
+                </div>
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div class="layui-upload-drag" style="display: block;" id="uploadDrag">
+                            <i class="layui-icon layui-icon-upload"></i>
+                            <div>点击上传，或将文件拖拽到此处</div>
                         </div>
                     </div>
                 </div>

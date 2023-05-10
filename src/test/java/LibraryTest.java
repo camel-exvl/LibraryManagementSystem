@@ -249,6 +249,17 @@ public class LibraryTest {
         /* normal batch insert */
         List<Book> bookList2 = new ArrayList<>(bookSet);
         Assert.assertTrue(library.storeBook(bookList2).ok);
+
+        // 用于生成随机csv文件
+        // File file = new File("test.csv");
+        // try (FileWriter fw = new FileWriter(file)) {
+        //     for (Book book : bookList2) {
+        //         fw.write(book.getCategory() + "," + book.getTitle() + "," + book.getPress() + "," + book.getPublishYear() + "," + book.getAuthor() + "," + book.getPrice() + "," + book.getStock() + "\n");
+        //     }
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+
         ApiResult queryResult2 = library.queryBook(new BookQueryConditions());
         Assert.assertTrue(queryResult2.ok);
         BookQueryResults selectedResults2 = (BookQueryResults) queryResult2.payload;

@@ -1,10 +1,11 @@
-## 图书管理系统框架使用指南——Java
+## 图书管理系统
 
 ### 环境要求
-- JDK 1.8.0及以上，可通过`java -version`命令查看
-- Apache Maven 3.6.3及以上，可通过`mvn -v`命令查看
+- JDK 17.0.7
+- Apache Maven 3.9.1
+- MySQL Server 8.0.33
 
-`resources`目录下存放了数据库连接的相关配置以及Sql脚本
+运行前，需要将src/resources/application_template.yaml复制一份放至**根目录**，并重命名为application.yaml，然后修改其中的数据库连接信息
 
 清理输出目录并编译项目主代码
 `mvn clean compile`
@@ -19,3 +20,6 @@
 
 运行某个特定的测试
 `mvn -Dtest=LibraryTest#parallelBorrowBookTest clean test`
+
+打包成jar文件
+`mvn clean package`

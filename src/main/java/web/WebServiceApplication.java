@@ -1,17 +1,27 @@
 package web;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import entities.Book;
 import entities.Borrow;
 import entities.Card;
+import jakarta.servlet.http.HttpServletRequest;
 import library.LibraryManagementSystem;
 import library.LibraryManagementSystemImpl;
 import queries.ApiResult;
@@ -298,6 +308,54 @@ public class WebServiceApplication {
             model.addAttribute("message", e.getMessage());
         }
         return "manage/manageBook";
+    }
+
+    @RequestMapping("/manage/manageBook/post")
+    @ResponseBody
+    public JSONObject manageBookPost(@RequestParam(name = "file") MultipartFile file, HttpServletRequest request) {
+        JSONObject res = new JSONObject();
+        try {
+            String fileName = file.getOriginalFilename();
+            if (fileName == null || fileName.equals("")) {
+                throw new Exception("文件不能为空");
+            }
+            String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+            if (!suffix.equals("csv")) {
+                throw new Exception("文件格式错误");
+            }
+            String path = request.getSession().getServletContext().getRealPath("upload");
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            File uploadFile = new File(path + File.separator + fileName);
+            file.transferTo(uploadFile);
+            List<Book> books = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader(uploadFile));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length != 7) {
+                    throw new Exception("文件格式错误");
+                }
+                Book book = new Book(data[0], data[1], data[2], Integer.parseInt(data[3]), data[4],
+                        Double.parseDouble(data[5]), Integer.parseInt(data[6]));
+                books.add(book);
+            }
+            reader.close();
+            ApiResult result = library.storeBook(books);
+            if (result.ok) {
+                res.put("code", 0);
+                res.put("message", "入库成功");
+            } else {
+                throw new Exception(result.message);
+            }
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+            res.put("code", 1);
+            res.put("message", e.getMessage());
+        }
+        return res;
     }
 
     @GetMapping("/manage/manageCard")

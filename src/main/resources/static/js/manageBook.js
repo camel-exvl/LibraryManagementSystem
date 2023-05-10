@@ -30,6 +30,23 @@ layui.use(function () {
         }
         window.location.href = "/manage/manageBook?manageBookManageSelect=" + manageBookManageSelectValue + "&manageBookManageID=" + document.getElementById("manageBookManageID").value + "&manageBookManageCategory=" + document.getElementById("manageBookManageCategory").value + "&manageBookManageTitle=" + document.getElementById("manageBookManageTitle").value + "&manageBookManagePress=" + document.getElementById("manageBookManagePress").value + "&manageBookManagePublisherYear=" + document.getElementById("manageBookManagePublisherYear").value + "&manageBookManageAuthor=" + document.getElementById("manageBookManageAuthor").value + "&manageBookManagePrice=" + document.getElementById("manageBookManagePrice").value + "&manageBookManageStock=" + document.getElementById("manageBookManageStock").value;
     });
+
+    var upload = layui.upload;
+    var $ = layui.$;
+    upload.render({
+        elem: '#uploadDrag',
+        url: '/manage/manageBook/post',
+        field: "file",
+        force: "json",
+        exts: "csv",
+        done: function (res) {
+            console.log(res);
+            if (res.code > 0) {
+                return layer.msg('上传失败');
+            }
+            layer.msg("上传成功");
+        }
+    });
 });
 
 function initSelected(manageBookManageSelect) {
