@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>主页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="//cdn.staticfile.org/layui/2.8.2/css/layui.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <div th:replace="~{common::nav-fragment-header}"></div>
+        <div th:replace="~{common::nav-fragment-sidebar}"></div>
+        <div class="layui-body">
+            <div style="padding: 15px;" id="home-content">
+                <blockquote class="layui-elem-quote layui-text">
+                    欢迎使用图书管理系统
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="//cdn.staticfile.org/layui/2.8.2/layui.js"></script>
+<script src="/js/common.js"></script>
+
+</html>

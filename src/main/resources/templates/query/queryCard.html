@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>借书卡查询</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="//cdn.staticfile.org/layui/2.8.2/css/layui.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <div th:replace="~{common::nav-fragment-header}"></div>
+        <div th:replace="~{common::nav-fragment-sidebar}"></div>
+        <div class="layui-body">
+            <div style="padding: 15px;" id="home-content">
+                <div class="layui-form layui-row layui-col-space15">
+                    <div class="layui-form-item">
+                        <div class="layui-col-md3">
+                            <div class="layui-input-block">
+                                <button class="layui-btn layui-btn-radius" type="submit" lay-submit
+                                    lay-filter="queryCardSearchButton">查询所有借书卡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>借书卡ID</th>
+                        <th>姓名</th>
+                        <th>单位</th>
+                        <th>类型</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="card,cardStat : ${Cards}">
+                        <td th:text="${card.cardId}"></td>
+                        <td th:text="${card.name}"></td>
+                        <td th:text="${card.department}"></td>
+                        <td th:text="${card.type}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</body>
+<script src="//cdn.staticfile.org/layui/2.8.2/layui.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/queryCard.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message = /*[[${message}]]*/ '';
+    if (message != '') {
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.msg(message);
+        });
+    }
+/*]]>*/
+</script>
+
+</html>

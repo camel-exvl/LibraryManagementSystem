@@ -2,5 +2,5 @@
 .vs/
 .vscode/
 target/
-src/main/resources/application.yaml
+application.yaml
 .DS_Store
