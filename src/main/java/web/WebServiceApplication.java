@@ -201,7 +201,7 @@ public class WebServiceApplication {
                 model.addAttribute("borrowBookReturnCardIDInput", returnCardID);
                 model.addAttribute("borrowBookReturnBookIDInput", returnBookID);
                 if (mode.equals("borrow")) {
-                    Borrow borrow = new Borrow(Integer.parseInt(borrowCardID), Integer.parseInt(borrowBookID));
+                    Borrow borrow = new Borrow(Integer.parseInt(borrowBookID), Integer.parseInt(borrowCardID));
                     borrow.resetBorrowTime();
                     ApiResult result = library.borrowBook(borrow);
                     if (result.ok) {
@@ -210,7 +210,7 @@ public class WebServiceApplication {
                         throw new Exception(result.message);
                     }
                 } else if (mode.equals("return")) {
-                    Borrow borrow = new Borrow(Integer.parseInt(returnCardID), Integer.parseInt(returnBookID));
+                    Borrow borrow = new Borrow(Integer.parseInt(returnBookID), Integer.parseInt(returnCardID));
                     borrow.resetReturnTime();
                     ApiResult result = library.returnBook(borrow);
                     if (result.ok) {
